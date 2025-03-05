@@ -2,8 +2,11 @@ package com.example.projects.airBnb.service;
 
 import com.example.projects.airBnb.dto.HotelDto;
 import com.example.projects.airBnb.entity.Hotel;
+import com.example.projects.airBnb.entity.Room;
 import com.example.projects.airBnb.exception.ResourceNotFoundException;
 import com.example.projects.airBnb.repository.HotelRepository;
+import com.example.projects.airBnb.repository.InventoryRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -17,6 +20,7 @@ public class HotelServiceImp implements HotelService {
 
     private final HotelRepository hotelRepository;
     private final ModelMapper modelMapper;
+    private final InventoryService inventoryService;
 
 
     @Override
@@ -47,17 +51,28 @@ public class HotelServiceImp implements HotelService {
     }
 
     @Override
+    @Transactional
     public void deleteHotelById(Long id) {
         boolean exists = hotelRepository.existsById(id);
         if(!exists) throw new ResourceNotFoundException("Hotel not found");
-        hotelRepository.deleteById(id); //TODO: delete the future inventories for the hotel
+        Hotel hotel = hotelRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Hotel not found"));
+        for(Room room: hotel.getRooms()){
+            inventoryService.deleteFutureInventories(room);
+        }
+        hotelRepository.deleteById(id);
     }
 
     @Override
+    @Transactional
     public void activateHotel(Long id) {
         Hotel hotel = hotelRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Hotel not found"));
-        hotel.setActive(true); //TODO: Create inventories for the room
+        hotel.setActive(true);
         hotelRepository.save(hotel);
+        System.out.println("Namaste");
+        for(Room room: hotel.getRooms()){
+            System.out.println("In cllop");
+            inventoryService.initializeRoomForAYear(room);
+        }
     }
 
 

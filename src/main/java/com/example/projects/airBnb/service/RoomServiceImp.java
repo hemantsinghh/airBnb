@@ -22,6 +22,7 @@ public class RoomServiceImp implements RoomService{
     private final RoomRepository roomRepository;
     private final ModelMapper modelMapper;
     private final HotelRepository hotelRepository;
+    private final InventoryService inventoryService;
     @Override
     public RoomDto createNewRoom(Long hotelId, RoomDto roomDto) {
         log.info("Create a new room in hotel with Id: {}", hotelId);
@@ -29,7 +30,9 @@ public class RoomServiceImp implements RoomService{
         Room room = modelMapper.map(roomDto, Room.class);
         room.setHotel(hotel);
         roomRepository.save(room);
-        //TODO: Create inventory as the hotel is active and room is created
+        if(hotel.getActive()){
+            inventoryService.initializeRoomForAYear(room);
+        }
         return modelMapper.map(room,RoomDto.class);
     }
 
@@ -53,9 +56,8 @@ public class RoomServiceImp implements RoomService{
     public void deleteRoomById(Long roomId) {
         log.info("deleting the room with Id: {}", roomId);
         boolean exists = roomRepository.existsById(roomId);
-        if(!exists){
-            throw new ResourceNotFoundException("Room not found with ID:"+roomId);
-        }
-        roomRepository.deleteById(roomId);//TODO: delete all future inventory for this room
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new ResourceNotFoundException("Room not found"));
+        roomRepository.deleteById(roomId);
+        inventoryService.deleteFutureInventories(room);
     }
 }
