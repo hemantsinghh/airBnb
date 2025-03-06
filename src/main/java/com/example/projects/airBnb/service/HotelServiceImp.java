@@ -5,7 +5,7 @@ import com.example.projects.airBnb.entity.Hotel;
 import com.example.projects.airBnb.entity.Room;
 import com.example.projects.airBnb.exception.ResourceNotFoundException;
 import com.example.projects.airBnb.repository.HotelRepository;
-import com.example.projects.airBnb.repository.InventoryRepository;
+import com.example.projects.airBnb.repository.RoomRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +21,7 @@ public class HotelServiceImp implements HotelService {
     private final HotelRepository hotelRepository;
     private final ModelMapper modelMapper;
     private final InventoryService inventoryService;
+    private final RoomRepository roomRepository;
 
 
     @Override
@@ -58,6 +59,7 @@ public class HotelServiceImp implements HotelService {
         Hotel hotel = hotelRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Hotel not found"));
         for(Room room: hotel.getRooms()){
             inventoryService.deleteFutureInventories(room);
+            roomRepository.deleteById(room.getId());
         }
         hotelRepository.deleteById(id);
     }
