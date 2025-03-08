@@ -1,6 +1,5 @@
 package com.example.projects.airBnb.entity;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

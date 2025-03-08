@@ -1,6 +1,7 @@
 package com.example.projects.airBnb.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +17,7 @@ import java.util.List;
 @Table(name = "hotel")
 public class Hotel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -46,6 +47,7 @@ public class Hotel {
     private User owner;
 
     @OneToMany(mappedBy = "hotel")
+    @JsonIgnore
     private List<Room> rooms;
 
 }

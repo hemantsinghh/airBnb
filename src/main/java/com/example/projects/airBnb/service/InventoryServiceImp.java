@@ -50,7 +50,6 @@ public class InventoryServiceImp implements InventoryService {
         inventoryRepository.deleteByRoom(room);
     }
 
-    //TODO: FIX ME
     @Override
     public Page<HotelDto> searchHotels(HotelSearchRequest hotelSearchRequest) {
         Pageable pageable = PageRequest.of(hotelSearchRequest.getPage(), hotelSearchRequest.getSize());
