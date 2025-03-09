@@ -1,8 +1,5 @@
 package com.example.projects.airBnb.dto;
 
-import com.example.projects.airBnb.entity.Hotel;
-import com.example.projects.airBnb.entity.Room;
-import com.example.projects.airBnb.entity.User;
 import com.example.projects.airBnb.entity.enums.BookingStatus;
 import lombok.Data;
 
