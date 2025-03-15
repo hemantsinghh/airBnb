@@ -2,7 +2,6 @@ package com.example.projects.airBnb.strategy;
 
 import com.example.projects.airBnb.entity.Inventory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 

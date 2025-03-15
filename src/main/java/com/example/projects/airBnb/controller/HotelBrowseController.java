@@ -1,7 +1,5 @@
 package com.example.projects.airBnb.controller;
 
-
-import com.example.projects.airBnb.dto.HotelDto;
 import com.example.projects.airBnb.dto.HotelInfoDto;
 import com.example.projects.airBnb.dto.HotelPriceDto;
 import com.example.projects.airBnb.dto.HotelSearchRequest;
