@@ -3,6 +3,8 @@ package com.example.projects.airBnb.service;
 import com.example.projects.airBnb.dto.HotelDto;
 import com.example.projects.airBnb.dto.HotelInfoDto;
 
+import java.util.List;
+
 public interface HotelService {
     HotelDto createNewHotel(HotelDto hotelDto);
     HotelDto getHotelById(Long id);
@@ -10,4 +12,6 @@ public interface HotelService {
     void deleteHotelById(Long id);
     void activateHotel(Long id);
     HotelInfoDto getHotelInfoById(Long hotelId);
+
+    List<HotelDto> getAllHotels();
 }

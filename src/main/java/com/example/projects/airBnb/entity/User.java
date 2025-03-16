@@ -1,6 +1,7 @@
 package com.example.projects.airBnb.entity;
 
 
+import com.example.projects.airBnb.entity.enums.Gender;
 import com.example.projects.airBnb.entity.enums.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
@@ -30,7 +32,14 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @Column
     private String name;
+
+    @Column
+    private LocalDate dateOfBirth;
+
+    @Column
+    private Gender gender;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)

@@ -1,12 +1,16 @@
 package com.example.projects.airBnb.controller;
 
+import com.example.projects.airBnb.dto.BookingDto;
 import com.example.projects.airBnb.dto.HotelDto;
+import com.example.projects.airBnb.service.BookingService;
 import com.example.projects.airBnb.service.HotelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin/hotels")
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class HotelController {
 
     private final HotelService hotelService;
+    private final BookingService bookingService;
 
     @PostMapping
     public ResponseEntity<HotelDto> createNewHotel(@RequestBody HotelDto hotelDto){
@@ -44,5 +49,15 @@ public class HotelController {
     public ResponseEntity<Void> activateHotel(@PathVariable Long hotelId){
         hotelService.activateHotel(hotelId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<HotelDto>> getAllHotels(){
+        return ResponseEntity.ok(hotelService.getAllHotels());
+    }
+
+    @GetMapping("/{hotelId}/bookings")
+    public ResponseEntity<List<BookingDto>> getAllBookingsByHotelId(@PathVariable Long hotelId){
+        return ResponseEntity.ok(bookingService.getAllBookingByHotelId(hotelId));
     }
 }
