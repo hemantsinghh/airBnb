@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example.projects</groupId>
-	<artifactId>airBnb</artifactId>
+	<artifactId>innStay</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>airBnb</name>
+	<name>innStay</name>
 	<description>Hotel booking portal</description>
 	<url/>
 	<licenses>
